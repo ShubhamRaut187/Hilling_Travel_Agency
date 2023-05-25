@@ -1,0 +1,119 @@
+
+
+#TourDeatailsHead{
+    width: 90%;
+    /* border: 2px solid black; */
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px auto;
+    border-radius: 8px;
+}
+#TourDeatailsHead_sub1{
+    /* border: 2px solid black; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 40%;
+}
+#TourDetails_sub_1{
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* border: 2px solid black; */
+}
+#TourDetails_sub_1 > h2{
+    margin-bottom: 0px;
+    font-style: italic;
+    color: #29499a;
+}
+#TourDetails_sub_1 > p{
+    margin-top: 0px;
+    font-style: italic;
+    color: #29499a;
+}
+
+
+/* #TourDetails_sub_2{
+    border: 2px solid black;
+
+} */
+#TourDetails_sub_2 > h2{
+    margin-bottom: 0px;
+}
+#TourDetails_sub_2 > div{
+    margin-top: 0px;
+    display: flex;
+    justify-content: space-evenly;
+    /* align-items: flex-start; */
+    /* border: 2px solid black; */
+}
+#TourDetails_sub_2 > div > p{
+   margin-top: 0px;
+}
+#TourDetails_sub_2 > div > button{
+    width: 100px;
+    font-size: 12;
+    height: 20px;
+    border: 2px solid #fe7200;
+    border-radius: 5px;
+    color: #fe7200;
+    font-weight: 600;
+    background-color: white;
+    margin-top: 2px;
+}
+
+
+#TourDeatailsHead_sub2{
+    width: 35%;
+    /* border: 2px solid black; */
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    
+}
+#TourDetails_sub_3{
+    /* border: 2px solid red; */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    width: 40%;
+    margin-right: 30px;
+    
+}
+#TourDetails_sub_3 > p{
+    margin-top: 2px;
+    margin-bottom: 2px;
+    font-size: 12px;
+    font-weight: 600;
+}
+#super_deal{
+    color: #5cac33;
+    font-weight: 600;
+}
+#TourDetails_sub_3 > h2{
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+#TourDetails_sub_4{
+    /* border: 2px solid black; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+}
+#TourDetails_sub_4 > button{
+    width: 80%;
+    height: 40px;
+    border: none;
+    border-radius: 5px;
+    background-color: #ffd800;
+    font-weight: 600;
+}
+#booknow_btn:hover{
+    background-color: #e5ba00;
+}

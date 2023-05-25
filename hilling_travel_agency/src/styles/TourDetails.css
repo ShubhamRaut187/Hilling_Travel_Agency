@@ -1,0 +1,8 @@
+*{
+    font-family: sans-serif;
+}
+#TourDetails_Parent{
+    width: 98%;
+    /* border: 2px solid green; */
+    margin: auto;
+}
