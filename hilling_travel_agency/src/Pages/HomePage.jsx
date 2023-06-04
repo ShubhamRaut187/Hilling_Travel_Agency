@@ -1,15 +1,14 @@
 import React from 'react'
-import { Container, Stack } from '@chakra-ui/react'
-import { Link } from 'react-router-dom'
+import { Stack } from '@chakra-ui/react'
+import Home from '../Components/Home'
+import Footer from '../Components/Footer'
 
 const HomePage = () => {
   return (
-    // <Container maxW={1200}>
-    //   Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum et magnam impedit amet laboriosam alias aspernatur  ef werd d dd ddddd ddddd erw ewr odawd wit tenetur facilis porro fugit ab voluptates, autem ipsa ut unde dignissimos eaque molestias quam veritatis pariatur exercitationem.
-    // </Container> 
-
-    <Stack>
-        <Link onMouseOver={()=>{}}>Login</Link>
+    <Stack background={'#041126'}>
+        <Home />
+        
+        <Footer />
     </Stack>
   )
 }
