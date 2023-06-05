@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Input, Text, Container, Center, Box, Button, Heading, Radio, RadioGroup, Stack } from '@chakra-ui/react';
 import { useDispatch, useSelector } from "react-redux";
 import { addUser } from "../../Redux/Login-Signup/action";
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import './sign.css'
-
+import './sign.css';
+import axios from "axios";
 export const Signup = () => {
   const dispatch = useDispatch();
 
@@ -29,48 +29,83 @@ export const Signup = () => {
     });
   };
 
-  const handleSignUp = () => {
-    if(user.firstName!==''&&user.lastName!==''&&user.email!==''&&user.password!==''&&user.confirmPassword&&user.gender!=='')
-    {
-      if(user.password!==user.confirmPassword)
-      {
+   const handleSignUp = () => {
+    if (
+      user.firstName !== '' &&
+      user.lastName !== '' &&
+      user.email !== '' &&
+      user.password !== '' &&
+      user.confirmPassword !== '' &&
+      user.gender !== ''
+    ) {
+      if (user.password !== user.confirmPassword) {
         Swal.fire({
           icon: 'error',
           title: 'Oops...',
-          text: 'Passwords does not matches!',
+          text: 'Passwords do not match!',
           customClass: {
-            confirmButton: 'teal-button'
-          }
-      } )
-    }
-      else
-      {
-        Swal.fire({
-          icon: 'success',
-          title:'Account Created Successfully',
-        }
-        )
-        dispatch(addUser(user));
-        localStorage.setItem('allUsers', JSON.stringify(user));
-        navigate('/login')
+            confirmButton: 'teal-button',
+          },
+        });
+      } else {
+
+        axios
+          .get(`http://localhost:8080/users?email=${user.email}`)
+          .then((response) => {
+            const existingUser = response.data;
+
+            if (existingUser) {
+              Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'An account with this email already exists!',
+              });
+            } else {
+              axios
+                .post('http://localhost:8080/users', user)
+                .then((response) => {
+                  Swal.fire({
+                    icon: 'success',
+                    title: 'Account Created Successfully',
+                  });
+                  dispatch(addUser(user));
+                  localStorage.setItem('allUsers', JSON.stringify(user));
+                  navigate('/login');
+                })
+                .catch((error) => {
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Signup request failed',
+                  });
+                  console.error(error);
+                });
+            }
+          })
+          .catch((error) => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Signup request failed',
+            });
+            console.error(error);
+          });
       }
-    }
-    else {
+    } else {
       Swal.fire({
         icon: 'warning',
         title: 'Enter all fields',
-      })
+      });
     }
-    
   };
 
-  const storeData = useSelector((store)=>{
-      return store
-  })
+  const storeData = useSelector((store) => {
+    return store;
+  });
 
-  useEffect(()=>{
-      console.log(storeData)
-  },[storeData])
+  useEffect(() => {
+    console.log(storeData);
+  }, [storeData]);
 
   return (
     <Box my="100px">
@@ -117,7 +152,6 @@ export const Signup = () => {
             placeholder="Create Password"
             mb={4}
             onChange={handleInputChange}
-            
           />
           <Input
             type="text"
@@ -157,3 +191,4 @@ export const Signup = () => {
     </Box>
   );
 };
+

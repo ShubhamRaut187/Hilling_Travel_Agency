@@ -3,15 +3,13 @@ import { Input, Checkbox, Text, Container, Center, Box, Button, Heading, Flex, I
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, useDisclosure, useToast } from '@chakra-ui/react';
 import { FaGoogle, FaTwitter, FaLinkedin, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import {store} from '../../Redux/store'
 import Swal from 'sweetalert2';
-
+import axios from 'axios';
 
 export const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
@@ -27,22 +25,22 @@ export const Login = () => {
   const handleButtonClick = () => {
     if (email === '') {
       toast({
-        title: "Error",
-        description: "Please enter valid email.",
-        status: "error",
+        title: 'Error',
+        description: 'Please enter a valid email.',
+        status: 'error',
         duration: 2000,
         isClosable: true,
-        position: "top",
+        position: 'top',
       });
       onClose();
     } else {
       toast({
-        title: "Success",
-        description: "The reset link has been sent to your email.",
-        status: "success",
+        title: 'Success',
+        description: 'The reset link has been sent to your email.',
+        status: 'success',
         duration: 2000,
         isClosable: true,
-        position: "top",
+        position: 'top',
       });
 
       onClose();
@@ -50,65 +48,54 @@ export const Login = () => {
     }
   };
 
-  const storeData = useSelector((store)=>{
-      return store.users;
-  })
-
   const handleEmail = (e) => setEmail(e.target.value);
   const handlePassword = (e) => setPassword(e.target.value);
 
   const handleCreateButtonClick = () => {
-    navigate('/signup')
+    navigate('/signup');
   };
-  
 
-  const handleLogin= () => {
-      const matchFound = storeData.find((ele)=>ele.email===email && ele.password===password)
-      const partialMatchFound = storeData.find((ele)=>ele.email===email || ele.password===password)
-     // const localData = JSON.parse(localStorage.getItem('allUsers'))||[];
-    //  console.log('local',localData);
-    //if ()
-      console.log(storeData,"EMAIL",email,"PASS",password)
-      if(matchFound) 
-      {
-        Swal.fire({
-          position: 'center',
-          icon: 'success',
-          title: 'Login Succesfull',
-          showConfirmButton: false,
-          timer: 2000
-        })
-        navigate('/signup')
-      }
-      else if(partialMatchFound) {
-        Swal.fire({
-          icon: 'warning',
-          title: 'Invalid email or password',
-        })
-      }
-      else {
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          showConfirmButton: false,
-          text: 'This Account does not exists!',
-          footer:`<a href="" id="createButton" style="color: white; text-decoration: none; background-color: teal; padding: 10px; border-radius: 5px;">Create Now</a>`,
-          didOpen: () => {
-            const createButton = document.getElementById('createButton');
-            createButton.addEventListener('click', handleCreateButtonClick);
-          },
-        })
-      }
-      // const localMatchFound = localData.find((ele)=>ele.email===email && ele.password===password)
-      // if(localMatchFound) 
-      // {
-      //   alert("Login successful")
-      //   navigate('/signup')
-      // }
-      // else {
-      //   alert('Account does not exist')
-      // }
-  }
+  const handleLogin = () => {
+    axios
+      .get('http://localhost:8080/users') 
+      .then((response) => {
+        const users = response.data;
+
+        const matchFound = users.find((user) => user.email === email && user.password === password);
+        const partialMatchFound = users.find((user) => user.email === email || user.password === password);
+
+        if (matchFound) {
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Login Successful',
+            showConfirmButton: false,
+            timer: 2000,
+          });
+          navigate('/signup');
+        } else if (partialMatchFound) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Invalid email or password',
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            showConfirmButton: false,
+            text: 'This account does not exist!',
+            footer: `<a href="" id="createButton" style="color: white; text-decoration: none; background-color: teal; padding: 10px; border-radius: 5px;">Create Now</a>`,
+            didOpen: () => {
+              const createButton = document.getElementById('createButton');
+              createButton.addEventListener('click', handleCreateButtonClick);
+            },
+          });
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+      });
+  };
 
   return (
     <Box my="100px">
@@ -189,3 +176,6 @@ export const Login = () => {
     </Box>
   );
 };
+
+
+

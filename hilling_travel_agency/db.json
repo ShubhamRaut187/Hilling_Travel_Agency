@@ -1,0 +1,54 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "firstName": "",
+      "lastName": "",
+      "email": "",
+      "password": "",
+      "confirmPassword": "",
+      "gender": "",
+      "address": ""
+    },
+    {
+      "firstName": "shubham",
+      "lastName": "bhargav",
+      "email": "shubham@gmail.com",
+      "password": "123",
+      "confirmPassword": "123",
+      "gender": "Male",
+      "address": "",
+      "id": 2
+    },
+    {
+      "firstName": "asa",
+      "lastName": "sqx",
+      "email": "ss@f.cla",
+      "password": "aaa",
+      "confirmPassword": "aaa",
+      "gender": "Male",
+      "address": "",
+      "id": 3
+    },
+    {
+      "firstName": "sss",
+      "lastName": "fff",
+      "email": "ss@f.sddwd",
+      "password": "aaa",
+      "confirmPassword": "aaa",
+      "gender": "Male",
+      "address": "",
+      "id": 4
+    },
+    {
+      "firstName": "efgegf",
+      "lastName": "erra",
+      "email": "ss@f.class",
+      "password": "aaa",
+      "confirmPassword": "aaa",
+      "gender": "Male",
+      "address": "",
+      "id": 5
+    }
+  ]
+}
