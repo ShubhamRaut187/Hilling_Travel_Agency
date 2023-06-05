@@ -3,6 +3,7 @@ import { Input, Text, Container, Center, Box, Button, Heading, Radio, RadioGroup
 import { useDispatch, useSelector } from "react-redux";
 import { addUser } from "../../Redux/Login-Signup/action";
 import {useNavigate} from 'react-router-dom'
+import Swal from 'sweetalert2';
 
 export const Signup = () => {
   const dispatch = useDispatch();
@@ -32,18 +33,29 @@ export const Signup = () => {
     {
       if(user.password!==user.confirmPassword)
       {
-        alert("passwords do not match");
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Passwords does not match!',
+        })
       } 
       else
       {
-        alert("Account Created Successfully");
+        Swal.fire({
+          icon: 'success',
+          title:'Account Created Successfully',
+        }
+        )
         dispatch(addUser(user));
         localStorage.setItem('allUsers', JSON.stringify(user));
         navigate('/login')
       }
     }
     else {
-      alert("Input all fields")
+      Swal.fire({
+        icon: 'warning',
+        title: 'Enter all fields',
+      })
     }
     
   };
@@ -101,9 +113,10 @@ export const Signup = () => {
             placeholder="Create Password"
             mb={4}
             onChange={handleInputChange}
+            
           />
           <Input
-            type="password"
+            type="text"
             variant="flushed"
             name="confirmPassword"
             placeholder="Re-Enter Password"

@@ -5,6 +5,8 @@ import { FaGoogle, FaTwitter, FaLinkedin, FaEye, FaEyeSlash } from 'react-icons/
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import {store} from '../../Redux/store'
+import Swal from 'sweetalert2';
+
 
 export const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -55,18 +57,46 @@ export const Login = () => {
   const handleEmail = (e) => setEmail(e.target.value);
   const handlePassword = (e) => setPassword(e.target.value);
 
+  const handleCreateButtonClick = () => {
+    navigate('/signup')
+  };
+  
+
   const handleLogin= () => {
       const matchFound = storeData.find((ele)=>ele.email===email && ele.password===password)
+      const partialMatchFound = storeData.find((ele)=>ele.email===email || ele.password===password)
      // const localData = JSON.parse(localStorage.getItem('allUsers'))||[];
     //  console.log('local',localData);
+    //if ()
       console.log(storeData,"EMAIL",email,"PASS",password)
       if(matchFound) 
       {
-        alert("Login successful")
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'Login Succesfull',
+          showConfirmButton: false,
+          timer: 2000
+        })
         navigate('/signup')
       }
+      else if(partialMatchFound) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Invalid email or password',
+        })
+      }
       else {
-        alert('Account does not exist')
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'This Account does not exists!',
+          footer:`<a href="" id="createButton" style="color: white; text-decoration: none; background-color: teal; padding: 10px; border-radius: 5px;">Create Now</a>`,
+          didOpen: () => {
+            const createButton = document.getElementById('createButton');
+            createButton.addEventListener('click', handleCreateButtonClick);
+          },
+        })
       }
       // const localMatchFound = localData.find((ele)=>ele.email===email && ele.password===password)
       // if(localMatchFound) 
@@ -125,9 +155,9 @@ export const Login = () => {
             <Checkbox colorScheme="teal" variant="link"> Remember Me </Checkbox>
           </Flex>
           <Center>
-            <Button onClick={handleLogin} variant="solid" colorScheme="teal" size="lg" mb={6}>
+            <Button w={'full'} onClick={handleLogin} variant="solid" colorScheme="teal" size="lg" mb={6}>
               Login
-            </Button>
+            </Button> 
           </Center>
           <Text fontFamily="sans-serif" textAlign="center" fontWeight="600" mb={4}>
             Don't have an account? <Button colorScheme="teal" variant="link" onClick={handleClick}>Click here</Button>
