@@ -5,7 +5,7 @@ import { addUser } from "../../Redux/Login-Signup/action";
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import './sign.css';
-import axios from "axios";
+
 export const Signup = () => {
   const dispatch = useDispatch();
 
@@ -29,15 +29,17 @@ export const Signup = () => {
     });
   };
 
-   const handleSignUp = () => {
-    if (
+  const handleSignUp = () => {
+    
+    if(
       user.firstName !== '' &&
       user.lastName !== '' &&
       user.email !== '' &&
       user.password !== '' &&
       user.confirmPassword !== '' &&
       user.gender !== ''
-    ) {
+    ) 
+      {
       if (user.password !== user.confirmPassword) {
         Swal.fire({
           icon: 'error',
@@ -48,41 +50,29 @@ export const Signup = () => {
           },
         });
       } else {
-
-        axios
-          .get(`http://localhost:8080/users?email=${user.email}`)
-          .then((response) => {
-            const existingUser = response.data;
-
-            if (existingUser) {
-              Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'An account with this email already exists!',
-              });
-            } else {
-              axios
-                .post('http://localhost:8080/users', user)
-                .then((response) => {
-                  Swal.fire({
-                    icon: 'success',
-                    title: 'Account Created Successfully',
-                  });
-                  dispatch(addUser(user));
-                  localStorage.setItem('allUsers', JSON.stringify(user));
-                  navigate('/login');
-                })
-                .catch((error) => {
-                  Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Signup request failed',
-                  });
-                  console.error(error);
-                });
+        fetch('http://localhost:8080/users', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(user),
+        })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Signup request failed');
             }
+            return response.json();
           })
-          .catch((error) => {
+          .then(data => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Account Created Successfully',
+            });
+            dispatch(addUser(user));
+            localStorage.setItem('allUsers', JSON.stringify(user));
+            navigate('/login');
+          })
+          .catch(error => {
             Swal.fire({
               icon: 'error',
               title: 'Oops...',
