@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addUser } from "../../Redux/Login-Signup/action";
 import {useNavigate} from 'react-router-dom'
 import Swal from 'sweetalert2';
+import './sign.css'
 
 export const Signup = () => {
   const dispatch = useDispatch();
@@ -36,9 +37,12 @@ export const Signup = () => {
         Swal.fire({
           icon: 'error',
           title: 'Oops...',
-          text: 'Passwords does not match!',
-        })
-      } 
+          text: 'Passwords does not matches!',
+          customClass: {
+            confirmButton: 'teal-button'
+          }
+      } )
+    }
       else
       {
         Swal.fire({

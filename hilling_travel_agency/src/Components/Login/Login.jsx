@@ -90,6 +90,7 @@ export const Login = () => {
         Swal.fire({
           icon: 'error',
           title: 'Oops...',
+          showConfirmButton: false,
           text: 'This Account does not exists!',
           footer:`<a href="" id="createButton" style="color: white; text-decoration: none; background-color: teal; padding: 10px; border-radius: 5px;">Create Now</a>`,
           didOpen: () => {
